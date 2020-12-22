@@ -8,11 +8,12 @@ using UnityEngine;
 public class LotteryGacya : MonoBehaviour
 {    
     [Header("Rの確率は100-SR確率+SSR確率")]
-    
-    [Tooltip("Rキャラの確率"),NonEditibleSerializeField] private float probabilityR = 0;
-    [Tooltip("SRキャラの確率"),SerializeField] private float probabilitySR;
-    [Tooltip("SSRキャラの確率"),SerializeField] private float probabilitySSR;
-    // [SerializeField] private CharacterTable
+    [Tooltip("Rキャラの確率")]
+    [SerializeField]
+    [NonEditibleSerializeFieldAttribute]
+     public float probabilityR = 0;
+    [Tooltip("SRキャラの確率"),SerializeField] private float probabilitySR = 20;
+    [Tooltip("SSRキャラの確率"),SerializeField] private float probabilitySSR = 1;
     
     private List<CharacterData> acquiredList = new List<CharacterData>(); // 当たったキャラのリスト
     private const float MAX_PERCENT = 100;
@@ -31,7 +32,7 @@ public class LotteryGacya : MonoBehaviour
     public void LotteryPlay(int lotteryNum)
     {
         CharacterData character;
-        for(int i = 0; i< lotteryNum;i++){
+        for(int i = 0; i < lotteryNum; i++){
             switch(LotteryRarity())
             {
                 case CharacterData.RarityOfCharacter.R_RARE:
@@ -53,7 +54,7 @@ public class LotteryGacya : MonoBehaviour
             }
         }
         // ↑が終わったと同時に次のアクションを行う(アニメーションやテキスト表示など)
-        for(int i =0;i<acquiredList.Count;++i)
+        for(int i = 0; i < acquiredList.Count; ++i)
             Debug.Log(acquiredList[i].characterName);
     }
 

@@ -36,9 +36,7 @@ public class Fade : MonoBehaviour
                 {
                     var go = new GameObject("Fade");
                     fadeInstance = go.AddComponent<Fade>();
-                    Debug.Log("インスタンス生成");
                     DontDestroyOnLoad(fadeInstance);
-                    //Debug.LogError("インスタンスが存在しません");
                 }
                 
             }
@@ -55,19 +53,15 @@ public class Fade : MonoBehaviour
 
     private void Awake()
     {
-        if (fadeInstance == null)
+        if(fadeInstance == null)
         {
-            fadeInstance = FindObjectOfType<Fade>();
-            if (fadeInstance == null)
-            { 
-                fadeInstance = this;
-            }
+            fadeInstance = this as Fade;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
-        DontDestroyOnLoad(this);
     }
     
     private void CreateFadeCanvas()

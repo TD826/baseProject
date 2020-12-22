@@ -1,14 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
 
 
-#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(NonEditibleSerializeFieldAttribute))]
-public sealed class NonEditibleSerializeFieldDrawer : PropertyDrawer
+public class NonEditibleSerializeFieldDrawer : PropertyDrawer
 {
     public override float GetPropertyHeight(SerializedProperty property,GUIContent label)
     {
@@ -22,4 +19,3 @@ public sealed class NonEditibleSerializeFieldDrawer : PropertyDrawer
         GUI.enabled = true;
     }
 }
-#endif
