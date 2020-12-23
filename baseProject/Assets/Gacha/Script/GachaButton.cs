@@ -8,7 +8,6 @@ public class GachaButton : MonoBehaviour
     [Tooltip("課金コイン消費量(1回分)"),SerializeField] private int PAID_LOTTERY_ONE;
     [Tooltip("ガチャ回数"),SerializeField]private int GACHA_NUM = 10;   // ガチャ回数
     [Tooltip("コインが足りない時のメッセージ"),SerializeField] private GameObject errorMessageTextBox;
-    [NonEditibleSerializeFieldAttribute] public bool skipFlg;   // 演出スキップ用フラグ
     [SerializeField] private LotteryGacya lotteryGacya;
      
     // コインガチャ(単発)

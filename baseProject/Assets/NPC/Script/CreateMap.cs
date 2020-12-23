@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ダンジョンの生成を行うスクリプト
+/// 追加/改造できそうな項目
+/// ・親オブジェクトを生成して各オブジェクトごとに纏める
+/// ・アイテムの生成
+/// ・通路をランダムで2マスにする(同じ通路内で)：人口感をなくすため
+/// </summary>
 public class CreateMap : MonoBehaviour
 {
     public class DviRoomInformation
@@ -30,7 +37,7 @@ public class CreateMap : MonoBehaviour
     private const int wallID = 0;
     private const int roomID = 1;
     private const int roadID = 2;
-    private int[,] Map;
+    private int[,] mapArray;
 
     [Tooltip("部屋の数Min,Max(最小,最大)"),SerializeField,Range(1,10)]
     private int minRooms = 1;
@@ -45,10 +52,17 @@ public class CreateMap : MonoBehaviour
         // マップの壁を生成
         MapWallData();
         // マップの床を生成
-        MapFloorData();
+        //MapFloorData();
         // マップの分割
         MapDivision();
-
+        // 部屋を生成
+        RoomCreate();
+        // 道を生成
+        RoadCreate();
+        // ダンジョン生成
+        CreateDungeon();
+        // ダンジョン初期設定
+        InitDungeon();
         
     }
     /// <summary>
@@ -56,14 +70,14 @@ public class CreateMap : MonoBehaviour
     /// </summary>
     private void MapWallData()
     {
-        Map = new int[mapWidth,mapHeight];  // Mapデータ[縦、横]
+        mapArray = new int[mapWidth,mapHeight];  // Mapデータ[縦、横]
 
         // 設定した縦横分の壁を敷き詰める
         for(int i = 0;i<mapWidth; ++i)
         {
-            for(int j=0;j<mapHeight;++j)
+            for(int j = 0;j<mapHeight;++j)
             {
-                Map[i,j] = wallID;
+                mapArray[i,j] = wallID;
             }
         }
     }
@@ -78,7 +92,7 @@ public class CreateMap : MonoBehaviour
             {
                 //床を敷き詰める
                 Instantiate(floor,new Vector3(i - mapWidth / 2 , 0 , j - mapHeight / 2),Quaternion.identity);
-                if(Map[i,j]==wallID)
+                if(mapArray[i,j]==wallID)
                 {
                     for(int height = 0;height < wallHeight;++height)
                     {
@@ -103,48 +117,49 @@ public class CreateMap : MonoBehaviour
         roomDvi[0].right = mapWidth - 1;
         roomDvi[0].areaRank = roomDvi[0].bottom + roomDvi[0].right;
 
-        for(int i = 0; i<roomNum;i++)
+        for(int i = 1; i < roomNum; ++i)
         {
             roomDvi.Add(new DviRoomInformation());
-            int Target = 0;
-            int AreaMax = 0;
+            int target = 0;
+            int areaMax = 0;
             // 最大面積を持つ区画の指定
-            for(int j = 0; j<i;++j)
+            for(int j = 0; j < i;++j)
             {
-                if(roomDvi[j].areaRank >= AreaMax)
+                if(roomDvi[j].areaRank >= areaMax)
                 {
-                    AreaMax = roomDvi[j].areaRank;
-                    Target = j;
+                    areaMax = roomDvi[j].areaRank;
+                    target = j;
                 }
             }
-            // 分割点をもとめる
-            if(roomDvi[Target].bottom - roomDvi[Target].top > 12 && roomDvi[Target].right - roomDvi[Target].left > 12)
-            {
-                roomDvi[i].nextRoom = Target;
-                divisionPos = Random.Range(0,roomDvi[Target].areaRank);
 
-                if(divisionPos > roomDvi[Target].bottom - roomDvi[Target].top)
+            // 分割点をもとめる
+            if(roomDvi[target].bottom - roomDvi[target].top > 12 && roomDvi[target].right - roomDvi[target].left > 12)
+            {
+                roomDvi[i].nextRoom = target;
+                divisionPos = Random.Range(0,roomDvi[target].areaRank);
+
+                if(divisionPos > roomDvi[target].bottom - roomDvi[target].top)
                 {
-                    roomDvi[i].left = roomDvi[Target].left + Random.Range(6,roomDvi[Target].right - roomDvi[Target].left - 6);
-                    roomDvi[i].right = roomDvi[Target].right;
-                    roomDvi[Target].right = roomDvi[i].left - 1;
-                    roomDvi[i].top = roomDvi[Target].top;
-                    roomDvi[i].bottom = roomDvi[Target].bottom;
+                    roomDvi[i].left = roomDvi[target].left + Random.Range(6, roomDvi[target].right - roomDvi[target].left - 6);
+                    roomDvi[i].right = roomDvi[target].right;
+                    roomDvi[target].right = roomDvi[i].left - 1;
+                    roomDvi[i].top = roomDvi[target].top;
+                    roomDvi[i].bottom = roomDvi[target].bottom;
                     roomDvi[i].isNext = true;
                     roomDvi[i].nextRoomPos = roomDvi[i].left;
                 }   
                 else
                 {
-                    roomDvi[i].top = roomDvi[Target].top + Random.Range(6,roomDvi[Target].bottom - roomDvi[Target].top - 6);
-                    roomDvi[i].bottom = roomDvi[Target].bottom;
-                    roomDvi[Target].bottom = roomDvi[i].top - 1;
-                    roomDvi[i].left = roomDvi[Target].left;
-                    roomDvi[i].right = roomDvi[Target].right;
+                    roomDvi[i].top = roomDvi[target].top + Random.Range(6, roomDvi[target].bottom - roomDvi[target].top - 6);
+                    roomDvi[i].bottom = roomDvi[target].bottom;
+                    roomDvi[target].bottom = roomDvi[i].top - 1;
+                    roomDvi[i].left = roomDvi[target].left;
+                    roomDvi[i].right = roomDvi[target].right;
                     roomDvi[i].isNext = false;
                     roomDvi[i].nextRoomPos= roomDvi[i].top;
                 }
                 roomDvi[i].areaRank = roomDvi[i].bottom - roomDvi[i].top + roomDvi[i].right - roomDvi[i].left;
-                roomDvi[Target].areaRank = roomDvi[Target].bottom - roomDvi[Target].top + roomDvi[Target].right - roomDvi[Target].left;
+                roomDvi[target].areaRank = roomDvi[target].bottom - roomDvi[target].top + roomDvi[target].right - roomDvi[target].left;
 
             }
             else
@@ -183,7 +198,7 @@ public class CreateMap : MonoBehaviour
                 {
                     for(int k = 0 ; k < diffX ; ++k)
                     {
-                        Map[roomDvi[i].left + k + 1,roomDvi[i].top + j + 1] = roomID;
+                        mapArray[roomDvi[i].left + k + 1,roomDvi[i].top + j + 1] = roomID;
                     }
                 }
             }
@@ -204,7 +219,7 @@ public class CreateMap : MonoBehaviour
         int nextPos = 0;
         int nextDis = 0;
         
-        for(int i = 1;i < roomNum; ++i)
+        for(int i = 1; i < roomNum; ++i)
         {
             if(roomDvi[i].isNext)
             {
@@ -219,15 +234,15 @@ public class CreateMap : MonoBehaviour
                 nextDis = roomDvi[i].nextRoomPos - roomDvi[roomDvi[i].nextRoom].right + 1;
 
                 // ライン作成
-                for(int j = 0;j < nowDis ;++j)
+                for(int j = 0; j < nowDis ; ++j)
                 {
-                    Map[-j + roomDvi[i].left,nowPos] = roadID;
+                    mapArray[-j + roomDvi[i].left,nowPos] = roadID;
                 }
                 
                 // ライン作成
-                for(int j = 0;j < nextDis ;++j)
+                for(int j = 0; j < nextDis ; ++j)
                 {
-                    Map[-j + roomDvi[roomDvi[i].nextRoom].right,nextPos] = roadID;
+                    mapArray[j + roomDvi[roomDvi[i].nextRoom].right,nextPos] = roadID;
                 }
 
                 // 縦ライン作成
@@ -236,9 +251,9 @@ public class CreateMap : MonoBehaviour
                     //nowとnextのどちらが高いかを調べ、縦ラインを作成
                     if(nowPos >= nextPos)
                     {
-                        if((nextPos + j) < nowPos)
+                        if(nextPos + j < nowPos)
                         {
-                            Map[roomDvi[i].nextRoomPos,nextPos + j] = roadID;
+                            mapArray[roomDvi[i].nextRoomPos,nextPos + j] = roadID;
                         }
                         else
                         {
@@ -247,9 +262,9 @@ public class CreateMap : MonoBehaviour
                     }
                     else
                     {
-                        if((nowPos + j) < nextPos)
+                        if(nowPos + j < nextPos)
                         {
-                            Map[roomDvi[i].nextRoomPos,nowPos + j] = roadID;
+                            mapArray[roomDvi[i].nextRoomPos,nowPos + j] = roadID;
                         }
                         else
                         {
@@ -273,17 +288,92 @@ public class CreateMap : MonoBehaviour
                 // ライン作成
                 for(int j = 0; j < nowDis; ++j)
                 {
-                    Map[nowPos, -j + roomDvi[i].top] = roadID;
+                    mapArray[nowPos, -j + roomDvi[i].top] = roadID;
                 }
                 for(int j = 0; j < nextDis; ++j)
                 {
-                    Map[nextPos, j + roomDvi[roomDvi[i].nextRoom].bottom] = roadID;
+                    mapArray[nextPos, j + roomDvi[roomDvi[i].nextRoom].bottom] = roadID;
                 }
-
+                // 横ライン作成
+                for(int j = 0; ; ++j)
+                {
+                    if(nowPos >= nextPos)
+                    {
+                        if(nextPos + j < nowPos)
+                        {
+                            mapArray[nextPos + j, roomDvi[i].nextRoomPos] = roadID;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        if(nowPos + j < nextPos)
+                        {
+                            mapArray[nowPos + j, roomDvi[i].nextRoomPos] = roadID;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
             }
-
         }
     }
 
+    /// <summary>
+    /// ダンジョンに必要なオブジェクトの生成
+    /// </summary>
+    private void CreateDungeon()
+    {
+        for(int i = 0; i < mapWidth; ++i)
+        {
+            for(int j = 0; j < mapHeight; ++j)
+            {
+                // 床のオブジェクトを生成
+                Instantiate(floor,new Vector3(i - mapWidth / 2.0f, 0, j - mapHeight / 2.0f),Quaternion.identity);
+                //　壁のオブジェクトを生成
+                if(mapArray[i,j] == wallID)
+                {
+                    for(int height = 0; height < wallHeight; ++height)
+                    {
+                        Instantiate(wall,new Vector3(i - mapWidth / 2.0f,height + 1.0f , j - mapHeight / 2.0f),Quaternion.identity);
+                    }
+                }
+            }
+        }
 
+        // 外壁部分を作る
+        for(int i = - 1; i < mapHeight; ++i)
+        {
+            for(int j = 0; j < wallHeight; ++j)
+            {   
+                Instantiate(outerWall, new Vector3(-1 - mapWidth / 2.0f, j, i - mapHeight / 2.0f), Quaternion.identity);
+                Instantiate(outerWall, new Vector3(mapWidth - mapWidth / 2.0f, j, i - mapHeight / 2.0f), Quaternion.identity);
+            }
+        }
+        for(int i = - 1; i < mapWidth; ++i)
+        {
+            for(int j = 0; j < wallHeight; ++j)
+            {   
+                Instantiate(outerWall, new Vector3(i - mapWidth / 2.0f, j, -1.0f - mapHeight / 2.0f), Quaternion.identity);
+                Instantiate(outerWall, new Vector3(i - mapWidth / 2.0f, j, mapHeight - mapHeight / 2.0f), Quaternion.identity);
+            }
+        }
+    }
+
+    /// <summary>
+    /// ダンジョンの初期設定
+    /// </summary>
+    private void InitDungeon()
+    {
+        int randomRoom = Random.Range(0,roomNum);
+        int x = Random.Range(0, roomDvi[randomRoom].right - roomDvi[randomRoom].left) + roomDvi[randomRoom].left;
+        int z = Random.Range(0, roomDvi[randomRoom].bottom - roomDvi[randomRoom].left) + roomDvi[randomRoom].left;
+        // playerの初期position
+
+    }
 }

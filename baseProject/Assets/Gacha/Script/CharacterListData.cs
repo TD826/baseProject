@@ -7,7 +7,6 @@ using UnityEngine;
     order = 1)]
 // 名前や、レアリティの情報、初期パラメータ、初回入手時用のフラグをセットする
 // 今回は初期パラメータに関してはHPと攻撃力のみをセットするという仕様設定
-// 今回リストで受け渡しているが、キャラ数の増加と共に受け渡すサイズが増えるのでどうしよう・・・
 public class CharacterListData : ScriptableObject
 {
     private const string path = "CharacterListData";
