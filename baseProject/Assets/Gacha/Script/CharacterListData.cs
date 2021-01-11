@@ -1,19 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 [CreateAssetMenu(
     fileName = "CharacterListData",
     menuName = "ScriptableObject/CharacterListData",
-    order = 1)]
+    order = 0)]
 // 名前や、レアリティの情報、初期パラメータ、初回入手時用のフラグをセットする
 // 今回は初期パラメータに関してはHPと攻撃力のみをセットするという仕様設定
 public class CharacterListData : ScriptableObject
 {
     private const string path = "CharacterListData";
     // キャラクターのリスト
-    public List<CharacterData> characterRRareList = new List<CharacterData>();      //Rキャラ
-    public List<CharacterData> characterSRRareList = new List<CharacterData>();     // SRキャラ
-    public List<CharacterData> characterSSRRareList = new List<CharacterData>();   // SSRキャラ
+    public List<CharacterData> characterList = new List<CharacterData>();
 
     private static CharacterListData characterListInstance;
     public static CharacterListData CharacterListInstance
@@ -33,19 +32,10 @@ public class CharacterListData : ScriptableObject
             return characterListInstance;
         }
     }
-
-    public List<CharacterData> GetCharacterRRareList()
-    {
-        return characterRRareList;
-    }    
-
-    public List<CharacterData> GetCharacterSRRareList()
-    {
-        return characterSRRareList;
+    // キャラクターのリストから指定したレアリティを抜き出すゲッター
+    public IEnumerable<CharacterData> GetCharacterList(CharacterData.RarityOfCharacter rarity)
+    {   // ※LinqのWhere(通常のListにWhereはない)
+        return characterList.Where(x => x.characterRarity == rarity);
     }
-
-    public List<CharacterData> GetCharacterSSRRareList()
-    {
-        return characterSSRRareList;
-    }
+    
  }

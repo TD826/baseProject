@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(
-    fileName = "CharacterName",
-    menuName = "ScriptableObject/CharacterData",
-    order = 0)]
+
     
 // ※ScriptableObjectで弄りたいパラメータをプロパティで生成すると弄れなくなる（インスペクター）に表示されないので注意
+
+
 public class CharacterData : ScriptableObject
 {
     public enum RarityOfCharacter
@@ -15,6 +14,7 @@ public class CharacterData : ScriptableObject
         SR_RARE,
         SSR_RARE
     }
+    
     // キャラクターの名前
     public string characterName; 
     // キャラクターのレアリティ
@@ -31,7 +31,6 @@ public class CharacterData : ScriptableObject
 
     // 以下ゲッターとセッター
     public string GetCharacterName()=>characterName;
-
     public RarityOfCharacter GetCharacter()=>characterRarity;
     public float GetWinningProbability()=>winningProbability;
     public int GetFirstHealth()=>firstHealth;
