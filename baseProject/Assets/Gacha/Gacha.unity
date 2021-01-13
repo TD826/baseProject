@@ -412,11 +412,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2973411574016198188, guid: bef1aa981ea57ba409bcc426f099b313,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2973411574335625313, guid: bef1aa981ea57ba409bcc426f099b313,
+        type: 3}
+      propertyPath: probabilityR
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 2973411574686200540, guid: bef1aa981ea57ba409bcc426f099b313,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 860419468}
+    - target: {fileID: 2973411574686200541, guid: bef1aa981ea57ba409bcc426f099b313,
+        type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2973411574686200541, guid: bef1aa981ea57ba409bcc426f099b313,
+        type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 2973411574686200541, guid: bef1aa981ea57ba409bcc426f099b313,
+        type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2973411574686200541, guid: bef1aa981ea57ba409bcc426f099b313,
+        type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 720
+      objectReference: {fileID: 0}
     - target: {fileID: 2973411574686200543, guid: bef1aa981ea57ba409bcc426f099b313,
         type: 3}
       propertyPath: m_Name
