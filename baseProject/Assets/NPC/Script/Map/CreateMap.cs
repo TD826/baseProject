@@ -8,12 +8,13 @@ using UnityEngine;
 /// ・親オブジェクトを生成して各オブジェクトごとに纏める
 /// ・アイテムの生成
 /// ・通路をランダムで2マスにする(同じ通路内で)：人口感をなくすため
+/// ・ゴール、スタート位置の生成
 /// </summary>
 public class CreateMap : MonoBehaviour
 {
     public class DviRoomInformation
     {
-        public int top = 0;
+        public int top = 0; 
         public int left = 0;
         public int bottom = 0;
         public int right = 0;
@@ -29,11 +30,13 @@ public class CreateMap : MonoBehaviour
     [Tooltip("プレイヤーのトランスフォーム"),SerializeField] private Transform playerTransform;
     [Tooltip("マップ全体の大きさ"),SerializeField,Range(20,100)]
     private int mapWidth = 50;
-    [Tooltip("マップ全体の大きさ"),SerializeField,Range(20,100)]
+    [Tooltip("マップ全体の高さ"),SerializeField,Range(0,100)]
     private int mapHeight = 30;
 
     [Tooltip("壁の高さ"),SerializeField]
     private int wallHeight = 2;
+    [Tooltip("床と壁の間の幅"),SerializeField,Range(0,3)]
+    private float widthFloorAndWall = 0.1f;
     private const int wallID = 0;
     private const int roomID = 1;
     private const int roadID = 2;
@@ -51,8 +54,6 @@ public class CreateMap : MonoBehaviour
     {
         // マップの壁を生成
         MapWallData();
-        // マップの床を生成
-        //MapFloorData();
         // マップの分割
         MapDivision();
         // 部屋を生成
@@ -340,7 +341,7 @@ public class CreateMap : MonoBehaviour
                 {
                     for(int height = 0; height < wallHeight; ++height)
                     {
-                        Instantiate(wall,new Vector3(i - mapWidth / 2.0f,height + 1.0f , j - mapHeight / 2.0f),Quaternion.identity);
+                        Instantiate(wall,new Vector3(i - mapWidth / 2.0f,height + widthFloorAndWall , j - mapHeight / 2.0f),Quaternion.identity);
                     }
                 }
             }
