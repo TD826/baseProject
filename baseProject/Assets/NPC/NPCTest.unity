@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 1796830758}
   - component: {fileID: 1796830757}
   m_Layer: 0
-  m_Name: CreateMapObject
+  m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -333,8 +333,7 @@ MonoBehaviour:
     type: 3}
   mapWidth: 50
   mapHeight: 30
-  wallHeight: 3
-  widthFloorAndWall: 0.1
+  wallHeight: 2
   minRooms: 1
   maxRooms: 13
 --- !u!4 &1796830758
