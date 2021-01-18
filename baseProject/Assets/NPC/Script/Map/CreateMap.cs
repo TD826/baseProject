@@ -7,7 +7,7 @@ using UnityEngine;
 /// 追加/改造できそうな項目
 /// ・親オブジェクトを生成して各オブジェクトごとに纏める
 /// ・アイテムの生成
-/// ・通路をランダムで2マスにする(同じ通路内で)：人口感をなくすため
+/// ・通路の横幅をランダムで2マスにする(同じ通路内で)：人口感をなくすため
 /// ・ゴール、スタート位置の生成
 /// </summary>
 public class CreateMap : MonoBehaviour
@@ -24,28 +24,24 @@ public class CreateMap : MonoBehaviour
         public int nextRoomPos = 0;
     }
     [Tooltip("床のオブジェクト"),SerializeField] private GameObject floor;
-
     [Tooltip("壁のオブジェクト"),SerializeField] private GameObject wall;
     [Tooltip("外壁のオブジェクト"),SerializeField] private GameObject outerWall;
     [Tooltip("プレイヤーのトランスフォーム"),SerializeField] private Transform playerTransform;
-    [Tooltip("マップ全体の大きさ"),SerializeField,Range(20,100)]
-    private int mapWidth = 50;
-    [Tooltip("マップ全体の高さ"),SerializeField,Range(0,100)]
-    private int mapHeight = 30;
-
-    [Tooltip("壁の高さ"),SerializeField]
-    private int wallHeight = 2;
-    [Tooltip("床と壁の間の幅"),SerializeField,Range(0,3)]
-    private float widthFloorAndWall = 0.1f;
+    [Tooltip("プレイヤーを映しておくカメラのトランスフォーム"),SerializeField] private Transform cameraTransform;
+    [Tooltip("カメラの高さ"),SerializeField] private float cameraHeight;
+    [Tooltip("マップ全体の大きさ"),SerializeField,Range(20,100)] private int mapWidth = 50;
+    [Tooltip("マップ全体の高さ"),SerializeField,Range(0,100)] private int mapHeight = 30;
+    [Tooltip("壁の高さ"),SerializeField] private int wallHeight = 2;
+    [Tooltip("床と壁の間の幅"),SerializeField,Range(0,3)] private float widthFloorAndWall = 0.1f;
+    
     private const int wallID = 0;
     private const int roomID = 1;
     private const int roadID = 2;
     private int[,] mapArray;
 
-    [Tooltip("部屋の数Min,Max(最小,最大)"),SerializeField,Range(1,10)]
-    private int minRooms = 1;
-    [SerializeField,Range(1,20)]
-    private int maxRooms = 13;
+    [Header("部屋の数Min,Max(最小,最大)")]
+    [SerializeField,Range(1,10)] private int minRooms = 1;
+    [SerializeField,Range(1,20)] private int maxRooms = 13;
     private int roomNum;
 
     private List<DviRoomInformation> roomDvi = new List<DviRoomInformation>();
@@ -66,6 +62,7 @@ public class CreateMap : MonoBehaviour
         InitDungeon();
         
     }
+
     /// <summary>
     /// マップの壁(壁しかない状態のもの)を生成
     /// </summary>
@@ -374,7 +371,11 @@ public class CreateMap : MonoBehaviour
         int randomRoom = Random.Range(0,roomNum);
         int x = Random.Range(0, roomDvi[randomRoom].right - roomDvi[randomRoom].left) + roomDvi[randomRoom].left;
         int z = Random.Range(0, roomDvi[randomRoom].bottom - roomDvi[randomRoom].left) + roomDvi[randomRoom].left;
-        // playerの初期position
-
+        // playerの初期座標設定
+        playerTransform.transform.position = new Vector3(x - mapWidth / 2 + 1, 0.5f,z - mapHeight / 2 + 1);
+        // cameraの初期座標設定
+        cameraTransform.transform.position = new Vector3(playerTransform.position.x,cameraHeight,playerTransform.position.z);
+        // カメラの角度
+        cameraTransform.transform.rotation = new Quaternion(90,0,0,0);
     }
 }

@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+/// <summary>
+/// UniRxのDelayやDelayFrameを使った方がよさそう(最終的に)
+/// </summary>
 public static class DelayMethodExtension
 {
     /// <summary>
