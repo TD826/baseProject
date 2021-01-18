@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+//using UniRx;
 /// <summary>
 /// ターン制のゲームに使用するスクリプト
 /// </summary>
@@ -12,7 +14,12 @@ public enum GameState
     EnemyTurn,  // エネミー行動中
     TurnEnd,    // ターン終了⇒KeyInputに戻る
 }
-
+// [System.Serializable]
+// public class TurnManager : ReactiveProperty
+// {
+//     public TurnManager(){}
+//     public TurnManager(GameState firstValue) : base(firstValue){}
+// }
 public class TurnManager : MonoBehaviour
 {
     public static TurnManager turnInstance;
