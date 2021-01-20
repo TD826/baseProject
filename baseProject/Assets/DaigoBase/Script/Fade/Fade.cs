@@ -112,7 +112,7 @@ public class Fade : MonoBehaviour
         SceneManager.LoadScene(nextSceneObject);
         
         canvasFade.gameObject.SetActive(true);
-        Debug.Log(canvasFade.gameObject.active);
+        //Debug.Log(canvasFade.gameObject.active);
         canvasFade._alphaRange = 1;
         canvasFade.FadeStart(isFadeOut:false,fadeTime:fadeTime,fadeFinished:OnFadeInFinished);
 
