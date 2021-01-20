@@ -26,13 +26,14 @@ public class CreateMap : MonoBehaviour
     [Tooltip("床のオブジェクト"),SerializeField] private GameObject floor;
     [Tooltip("壁のオブジェクト"),SerializeField] private GameObject wall;
     [Tooltip("外壁のオブジェクト"),SerializeField] private GameObject outerWall;
-    [Tooltip("プレイヤーのトランスフォーム"),SerializeField] private Transform playerTransform;
+    [Tooltip("プレイヤーのトランスフォーム"),SerializeField] private GameObject playerObj;
     [Tooltip("プレイヤーを映しておくカメラのトランスフォーム"),SerializeField] private Transform cameraTransform;
     [Tooltip("カメラの高さ"),SerializeField] private float cameraHeight;
     [Tooltip("マップ全体の大きさ"),SerializeField,Range(20,100)] private int mapWidth = 50;
     [Tooltip("マップ全体の高さ"),SerializeField,Range(0,100)] private int mapHeight = 30;
     [Tooltip("壁の高さ"),SerializeField] private int wallHeight = 2;
     [Tooltip("床と壁の間の幅"),SerializeField,Range(0,3)] private float widthFloorAndWall = 0.1f;
+    [Tooltip("プレイヤーの初期の高さ"),SerializeField] private float firstPlayerHeight = 1.0f;
     
     private const int wallID = 0;
     private const int roomID = 1;
@@ -43,6 +44,7 @@ public class CreateMap : MonoBehaviour
     [SerializeField,Range(1,10)] private int minRooms = 1;
     [SerializeField,Range(1,20)] private int maxRooms = 13;
     private int roomNum;
+    private Vector3 firstPlayerPosition;
 
     private List<DviRoomInformation> roomDvi = new List<DviRoomInformation>();
 
@@ -372,10 +374,13 @@ public class CreateMap : MonoBehaviour
         int x = Random.Range(0, roomDvi[randomRoom].right - roomDvi[randomRoom].left) + roomDvi[randomRoom].left;
         int z = Random.Range(0, roomDvi[randomRoom].bottom - roomDvi[randomRoom].left) + roomDvi[randomRoom].left;
         // playerの初期座標設定
-        playerTransform.transform.position = new Vector3(x - mapWidth / 2 + 1, 0.5f,z - mapHeight / 2 + 1);
+        Instantiate(playerObj,new Vector3(x - mapWidth / 2 + 1, firstPlayerHeight,z - mapHeight / 2 + 1),Quaternion.identity);
+        //playerObj.transform.position = new Vector3(x - mapWidth / 2 + 1, 0.5f,z - mapHeight / 2 + 1);
+        Debug.Log("プレイヤーのポジション : " + playerObj.transform.position);
         // cameraの初期座標設定
-        cameraTransform.transform.position = new Vector3(playerTransform.position.x,cameraHeight,playerTransform.position.z);
+        cameraTransform.position = new Vector3(playerObj.transform.position.x,cameraHeight,playerObj.transform.position.z);
+        Debug.Log("カメラのポジション : " + cameraTransform.position);
         // カメラの角度
-        cameraTransform.transform.rotation = new Quaternion(90,0,0,0);
+        cameraTransform.transform.rotation = Quaternion.Euler(new Vector3(90,0,0));
     }
 }
