@@ -8,8 +8,7 @@ public class FileDesignationAttribute : PropertyAttribute
     {
         NONE = 0,
         CSV = 1,
-        JSON = 2,
     }
     // 拡張子フィルター
-    public FILEEXTENSION extensionFilter = FILEEXTENSION.NONE;
+    public FILEEXTENSION extensionFilter;
 }
