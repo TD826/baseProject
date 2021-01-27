@@ -12,7 +12,7 @@ public class CSVReader : MonoBehaviour
     private TextAsset csvFile;
     private List<string[]> csvDatas = new List<string[]>(); // CSVの中身を格納するリスト
     [Tooltip("ファイルパスを格納する変数"),FileDesignation,SerializeField] private string filePath;
-    // Start is called before the first frame update
+
     void Start()
     {
         LoadCSV();
@@ -27,14 +27,10 @@ public class CSVReader : MonoBehaviour
         csvFile = Resources.Load(filePath)as TextAsset;
         StringReader csvReader = new StringReader(csvFile.text);
 
-
-
         while(csvReader.Peek() > -1)
         {
             string cell = csvReader.ReadLine();
-            Debug.Log(cell);
-            csvDatas.Add(cell.Split(','));  // ','を目安にリストに格納していく
-            
+            csvDatas.Add(cell.Split(','));  // ','を目安にリストに格納していく   
         }
         csvReader.Close();
     }
