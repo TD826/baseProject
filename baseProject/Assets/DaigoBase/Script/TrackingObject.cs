@@ -1,37 +1,67 @@
-﻿using System.Collections;
+﻿// These codes are licensed under CC0.
+// http://creativecommons.org/publicdomain/zero/1.0/deed.ja
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UniRx;
 
+/// <summary>
+/// The camera added this script will follow the specified object.
+/// The camera can be moved by left mouse drag and mouse wheel.
+/// </summary>
 public class TrackingObject : MonoBehaviour
 {
-    [Tooltip("追跡したいオブジェクトのTransform"),SerializeField] private Transform trackingObject;
-    private ReactiveProperty<Vector3> rpTrackingObjectPosition = new ReactiveProperty<Vector3>(Vector3.zero);
+    public GameObject target; // an object to follow
+    public Vector3 offset; // offset form the target object
 
-    // Start is called before the first frame update
-    void Start()
-    {   
-        // rpTrackingObjectPositionのValueにpositionを格納(初期値)
-        rpTrackingObjectPosition.Value = trackingObject.transform.position;
-        // Transformの値を監視、値が変わったら関数を呼び出してpositionのXZ
-    
-        rpTrackingObjectPosition.ObserveEveryValueChanged(_ => _.Value)
-                            .Subscribe(_ => XZPositionChanger(trackingObject));
-    }
+    [SerializeField] private float distance = 4.0f; // distance from following object
+    [SerializeField] private float polarAngle = 45.0f; // angle with y-axis
+    [SerializeField] private float azimuthalAngle = 45.0f; // angle with x-axis
 
-    /// <summary>
-    /// XZのPosition情報のみを変更し、Valueの値も変更する関数
-    /// </summary>
-    private void XZPositionChanger(Transform trackObjTransform)
+    [SerializeField] private float minDistance = 1.0f;
+    [SerializeField] private float maxDistance = 7.0f;
+    [SerializeField] private float minPolarAngle = 5.0f;
+    [SerializeField] private float maxPolarAngle = 75.0f;
+    [SerializeField] private float mouseXSensitivity = 5.0f;
+    [SerializeField] private float mouseYSensitivity = 5.0f;
+    [SerializeField] private float scrollSensitivity = 5.0f;
+
+    void LateUpdate()
     {
-        this.transform.position.Set(trackObjTransform.position.x,this.transform.position.y,trackObjTransform.position.z);
-        rpTrackingObjectPosition.Value = trackingObject.transform.position;
+        if (Input.GetMouseButton(0)) 
+        {
+            updateAngle(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        }
+        updateDistance(Input.GetAxis("Mouse ScrollWheel"));
+
+        var lookAtPos = target.transform.position + offset;
+        updatePosition(lookAtPos);
+        transform.LookAt(lookAtPos);
     }
 
-    // Update is called once per frame
-    void Update()
+    void updateAngle(float x, float y)
     {
-        
+        x = azimuthalAngle - x * mouseXSensitivity;
+        azimuthalAngle = Mathf.Repeat(x, 360);
+
+        y = polarAngle + y * mouseYSensitivity;
+        polarAngle = Mathf.Clamp(y, minPolarAngle, maxPolarAngle);
     }
+
+    void updateDistance(float scroll)
+    {
+        scroll = distance - scroll * scrollSensitivity;
+        distance = Mathf.Clamp(scroll, minDistance, maxDistance);
+    }
+
+    void updatePosition(Vector3 lookAtPos)
+    {
+        var da = azimuthalAngle * Mathf.Deg2Rad;
+        var dp = polarAngle * Mathf.Deg2Rad;
+        transform.position = new Vector3(
+            lookAtPos.x + distance * Mathf.Sin(dp) * Mathf.Cos(da),
+            lookAtPos.y + distance * Mathf.Cos(dp),
+            lookAtPos.z + distance * Mathf.Sin(dp) * Mathf.Sin(da));
+    }
+
 }
