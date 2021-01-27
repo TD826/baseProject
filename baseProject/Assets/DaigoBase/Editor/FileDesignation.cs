@@ -9,7 +9,7 @@ using UnityEditor;
 /// </summary>
 [CustomPropertyDrawer(typeof(FileDesignationAttribute))]
 public class FileDesignation : PropertyDrawer
-{    
+{
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         FileDesignationAttribute fileAttribute = (FileDesignationAttribute)attribute;
