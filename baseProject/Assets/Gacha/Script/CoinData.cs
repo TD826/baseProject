@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinData : MonoBehaviour
+public class CoinData : SingletonMonoBehaviour<CoinData>
 {
-    private static int coin;
+    private int coin;
     private static int paidCoin;
     // 無償コインのプロパティ
-    public static int Coin
+    public int Coin
     {
         get
         {
@@ -32,6 +32,13 @@ public class CoinData : MonoBehaviour
             return paidCoin;
         }
         set{paidCoin += value;}
+    }
+
+    public void Awake(){
+        if(this != Instance){
+            Destroy(this);
+            return;
+        }
     }
 
 }

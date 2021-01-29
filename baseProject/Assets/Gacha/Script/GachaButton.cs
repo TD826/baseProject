@@ -14,9 +14,9 @@ public class GachaButton : MonoBehaviour
     public void NormalCoinOneGacha()
     {
         // コインの所持数チェック
-        if(CoinData.Coin >= LOTTERY_ONE)
+        if(CoinData.Instance.Coin >= LOTTERY_ONE)
         {
-            CoinData.Coin -= LOTTERY_ONE;
+            CoinData.Instance.Coin -= LOTTERY_ONE;
             // 抽選処理
             lotteryGacya.LotteryPlay(1);
         }
@@ -47,9 +47,9 @@ public class GachaButton : MonoBehaviour
     public void NormalCoinTenGacha()
     {
         // コインの所持数チェック
-        if(CoinData.Coin >= LOTTERY_ONE * GACHA_NUM)
+        if(CoinData.Instance.Coin >= LOTTERY_ONE * GACHA_NUM)
         {
-            CoinData.Coin -= LOTTERY_ONE * GACHA_NUM;
+            CoinData.Instance.Coin -= LOTTERY_ONE * GACHA_NUM;
             // 抽選処理
             lotteryGacya.LotteryPlay(GACHA_NUM);
 
