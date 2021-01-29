@@ -7,14 +7,14 @@ using System.Linq;
 [CreateAssetMenu(
     fileName = "CharacterListData",
     menuName = "ScriptableObject/CharacterListData",
-    order = 1)]
+    order = 0)]
 // 名前や、レアリティの情報、初期パラメータ、初回入手時用のフラグをセットする
 // 今回は初期パラメータに関してはHPと攻撃力のみをセットするという仕様設定
 public class CharacterListData : ScriptableObject
 {
     private const string path = "CharacterListData";
     // キャラクターのリスト
-    public CharacterData1[] characterArray = new CharacterData1[10];
+    public CharacterData[] characterArray = new CharacterData[10];
     private static CharacterListData characterListInstance;
     public static CharacterListData CharacterListInstance
     {
@@ -34,7 +34,7 @@ public class CharacterListData : ScriptableObject
         }
     }
     // キャラクターのリストから指定したレアリティを抜き出すゲッター
-    public IEnumerable<CharacterData1> GetCharacterList(CharacterData1.RarityOfCharacter rarity)
+    public IEnumerable<CharacterData> GetCharacterList(CharacterData.RarityOfCharacter rarity)
     {   // ※System.LinqのWhere(通常のListにWhereはない)
         return characterArray.Where(x => x.characterRarity == rarity);
     }
@@ -43,7 +43,7 @@ public class CharacterListData : ScriptableObject
 
 
 [System.Serializable]
-public class CharacterData1 /*: ScriptableObject*/
+public class CharacterData
 {
     
     public enum RarityOfCharacter
