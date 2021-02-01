@@ -15,7 +15,7 @@ public class TrackingObject : MonoBehaviour
     public Vector3 offset; // offset form the target object
 
     [SerializeField] private float distance = 4.0f; // distance from following object
-    [SerializeField] private float polarAngle = 45.0f; // angle with y-axis
+    [SerializeField] private float polarAngle = 0.0f; // angle with y-axis
     [SerializeField] private float azimuthalAngle = 45.0f; // angle with x-axis
 
     [SerializeField] private float minDistance = 1.0f;
