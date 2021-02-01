@@ -14,7 +14,7 @@ public class CreateMap : MonoBehaviour
 {
     public class DviRoomInformation
     {
-        public int top = 0; 
+        public int top = 0; // Z軸＋
         public int left = 0;
         public int bottom = 0;
         public int right = 0;
@@ -43,7 +43,7 @@ public class CreateMap : MonoBehaviour
     [Header("部屋の数Min,Max(最小,最大)")]
     [SerializeField,Range(1,10)] private int minRooms = 1;
     [SerializeField,Range(1,20)] private int maxRooms = 13;
-    private int roomNum;
+    private int roomNum;    // ランダムで選ばれた生成するルームの最大数
     private Vector3 firstPlayerPosition;
 
     private List<DviRoomInformation> roomDvi = new List<DviRoomInformation>();
@@ -371,15 +371,14 @@ public class CreateMap : MonoBehaviour
     private void InitDungeon()
     {
         int randomRoom = Random.Range(0,roomNum);
-        int x = Random.Range(0, roomDvi[randomRoom].right - roomDvi[randomRoom].left) + roomDvi[randomRoom].left;
-        int z = Random.Range(0, roomDvi[randomRoom].bottom - roomDvi[randomRoom].left) + roomDvi[randomRoom].left;
+        // + roomDvi[randomRoom].left
+        int x = Random.Range(0, roomDvi[randomRoom].right - roomDvi[randomRoom].left);
+        int z = Random.Range(0, roomDvi[randomRoom].bottom - roomDvi[randomRoom].left);
         // playerの初期座標設定
-        Instantiate(playerObj,new Vector3(x - mapWidth / 2 + 1, firstPlayerHeight,z - mapHeight / 2 + 1),Quaternion.identity);
-        //playerObj.transform.position = new Vector3(x - mapWidth / 2 + 1, 0.5f,z - mapHeight / 2 + 1);
-        Debug.Log("プレイヤーのポジション : " + playerObj.transform.position);
+        //Instantiate(playerObj,new Vector3(x - mapWidth / 2 + 1, firstPlayerHeight,z - mapHeight / 2 + 1),Quaternion.identity);
+        playerObj.transform.position = new Vector3(x - mapWidth / 2 + 1, 0.5f,z - mapHeight / 2 + 1);
         // cameraの初期座標設定
         cameraTransform.position = new Vector3(playerObj.transform.position.x,cameraHeight,playerObj.transform.position.z);
-        Debug.Log("カメラのポジション : " + cameraTransform.position);
         // カメラの角度
         cameraTransform.transform.rotation = Quaternion.Euler(new Vector3(90,0,0));
     }
