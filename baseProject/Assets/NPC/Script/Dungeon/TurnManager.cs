@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Linq;
 using System;
 using UniRx;
-//using UniRx;
 /// <summary>
 /// ターン制のゲームに使用するスクリプト
 /// </summary>
@@ -21,9 +20,8 @@ public enum GameState
 public class TurnManager : SingletonMonoBehaviour<TurnManager>
 {
     public GameState nowGameState;  // 現在のGameState
-    private List<TurnObject> turnObjectList = new List<TurnObject>();   // ターン制で動かすオブジェクト(エネミーのみ)
+    private List<EnemyObject> turnObjectList = new List<EnemyObject>();   // ターン制で動かすオブジェクト(エネミーのみ)
     public float turnDelay = 0.2f;    // 移動時に掛けるディレイの秒数
-
     private bool sortFlg = false;   // ソート完了フラグ
 
     private ReactiveProperty<GameState> rpGameState = new ReactiveProperty<GameState>();
@@ -33,16 +31,6 @@ public class TurnManager : SingletonMonoBehaviour<TurnManager>
             Destroy(this);
             return;
         }
-        
-        // rpGameState.Subscribe(_ =>{
-        //     Debug.Log("change" + _.ToString(""));
-        // });
-
-        rpGameState.ObserveEveryValueChanged(x => nowGameState)
-            .Where(x => x == GameState.PlayerTurn)
-            .Subscribe(_ => {
-                Debug.Log("change" + _.ToString());
-            });
     }
 
     /// <summary>
@@ -83,7 +71,6 @@ public class TurnManager : SingletonMonoBehaviour<TurnManager>
     /// <summary>
     /// TurnObjectListに格納されている数をチェックする関数
     /// </summary>
-    /// <param name="turnObject"></param>
     private void TurnObjectChackList()
     {
         if(turnObjectList.Count <= 0)
@@ -96,17 +83,17 @@ public class TurnManager : SingletonMonoBehaviour<TurnManager>
     /// TurnObjectのListに追加する関数
     /// </summary>
     /// <param name="turnObject">追加するオブジェクト</param>
-    public void AddTurnObject(TurnObject turnObject)
+    public void AddTurnObject(EnemyObject enemyObject)
     {
-        turnObjectList.Add(turnObject);
+        turnObjectList.Add(enemyObject);
     }
 
     /// <summary>
     /// TurnObjectのListから削除する関数
     /// </summary>
     /// <param name="turnObject">削除するオブジェクト</param>
-    public void RemoveTurnObject(TurnObject turnObject)
+    public void RemoveTurnObject(EnemyObject enemyObject)
     {
-        turnObjectList.Remove(turnObject);
+        turnObjectList.Remove(enemyObject);
     }
 }
