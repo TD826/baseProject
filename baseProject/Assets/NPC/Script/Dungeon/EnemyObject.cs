@@ -4,11 +4,11 @@ using UnityEngine;
 using UniRx;
 
 /// <summary>
-/// ターン制に従うオブジェクト
+/// ターン制に従う敵性オブジェクト
 /// </summary>
-public class TurnObject : MonoBehaviour
+public class EnemyObject : MonoBehaviour
 {  
-    public int objectPriority;
+    [Tooltip("行動優先度")]public int objectPriority;
     void OnEnable()
     {
         TurnManager.Instance.AddTurnObject(this);
@@ -20,9 +20,9 @@ public class TurnObject : MonoBehaviour
     }
 
     /// <summary>
-    /// ターンが開始したときに必要な行動を記述した関数
+    /// ターンが開始したときに敵性オブジェクトが必要な行動を記述した関数
     /// </summary>
-    public void TurnEnable()
+    public void EnemyEnable()
     {
         
     }
