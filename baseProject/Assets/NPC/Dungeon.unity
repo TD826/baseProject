@@ -357,7 +357,7 @@ MonoBehaviour:
   target: {fileID: 1176680198}
   offset: {x: 0, y: 2, z: 0}
   distance: 4
-  polarAngle: 45
+  polarAngle: 0
   azimuthalAngle: 45
   minDistance: 1
   maxDistance: 7

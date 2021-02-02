@@ -28,11 +28,11 @@ public class TrackingObject : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Input.GetMouseButton(0)) 
-        {
-            updateAngle(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        }
-        updateDistance(Input.GetAxis("Mouse ScrollWheel"));
+        // if (Input.GetMouseButton(0)) 
+        // {
+        //     updateAngle(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        // }
+        // updateDistance(Input.GetAxis("Mouse ScrollWheel"));
 
         var lookAtPos = target.transform.position + offset;
         updatePosition(lookAtPos);
