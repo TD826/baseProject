@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;    // File読み込み用
-using System.Text;
 
 /// <summary>
 /// CSVを読み込むためのクラス
