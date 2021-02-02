@@ -370,13 +370,12 @@ public class CreateMap : MonoBehaviour
     /// </summary>
     private void InitDungeon()
     {
+        // プレイヤーのスポーンする部屋決め
         int randomRoom = Random.Range(0,roomNum);
-        // + roomDvi[randomRoom].left
-        int x = Random.Range(0, roomDvi[randomRoom].right - roomDvi[randomRoom].left);
-        int z = Random.Range(0, roomDvi[randomRoom].bottom - roomDvi[randomRoom].left);
+        int x = Random.Range(roomDvi[randomRoom].left + 1,roomDvi[randomRoom].right);
+        int z = Random.Range(roomDvi[randomRoom].top,roomDvi[randomRoom].bottom); 
         // playerの初期座標設定
-        //Instantiate(playerObj,new Vector3(x - mapWidth / 2 + 1, firstPlayerHeight,z - mapHeight / 2 + 1),Quaternion.identity);
-        playerObj.transform.position = new Vector3(x - mapWidth / 2 + 1, 0.5f,z - mapHeight / 2 + 1);
+        playerObj.transform.position = new Vector3(x - mapWidth / 2,0.5f,z - mapHeight / 2);
         // cameraの初期座標設定
         cameraTransform.position = new Vector3(playerObj.transform.position.x,cameraHeight,playerObj.transform.position.z);
         // カメラの角度
