@@ -71,7 +71,7 @@ public class MovePlayer : MonoBehaviour
     /// <summary>
     /// キー入力後、移動前に行う共通処理
     /// </summary>
-    /// <returns>移動するかしないかを判定するbool</returns>
+    /// <returns>   true:移動する      false：移動しない</returns>
     private bool ConfirmationBeforeMoving()
     {   
         RaycastHit raycastHit;
