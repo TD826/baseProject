@@ -30,8 +30,10 @@ public class SingletonMonoBehaviour<T> : MonoBehaviour where T: MonoBehaviour
 
 
 /*  使用方法（定義方法）
-*   public void Awake(){
-        if(this != Instance){
+*   public void Awake()
+   {
+        if(this != Instance)
+        {
             Destroy(this);
             return;
         }
