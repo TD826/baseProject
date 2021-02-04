@@ -14,7 +14,7 @@ public class LotteryGacha : MonoBehaviour
     [Tooltip("SRキャラの確率"),SerializeField] private float probabilitySR = 20;
     [Tooltip("SSRキャラの確率"),SerializeField] private float probabilitySSR = 1;
     
-    private List<CharacterData> acquiredList = new List<CharacterData>(); // 当たったキャラのリスト
+    private List<CharacterListData.CharacterData> acquiredList = new List<CharacterListData.CharacterData>(); // 当たったキャラのリスト
 
     void Start()
     {
@@ -47,17 +47,17 @@ public class LotteryGacha : MonoBehaviour
     /// レアリティの抽選とキャラの抽選（関数別）を行う関数
     /// </summary>
     /// <returns>抽選結果のレアリティ</returns>
-    private CharacterData LotteryRarity()
+    private CharacterListData.CharacterData LotteryRarity()
     {
         float rarityRand = Random.Range(0,MAX_PERCENT);
-        IEnumerable<CharacterData> characterData;
-
+        IEnumerable<CharacterListData.CharacterData> characterData;
+        
         // SSRの減算
         rarityRand -= probabilitySSR;
         if(rarityRand <= 0)
         {
             // CharacterListDataから対応するレアリティのリストを取得して抽選
-            characterData = CharacterListData.CharacterListInstance.GetCharacterList(CharacterData.RarityOfCharacter.SSR_RARE);
+            characterData = CharacterListManager.GetCharacterList(CharacterListData.CharacterData.RarityOfCharacter.SSR_RARE);
             return LotteryCharacter(characterData);
         }
         // SRの減算
@@ -65,12 +65,12 @@ public class LotteryGacha : MonoBehaviour
         if(rarityRand <= 0)
         {
             // CharacterListDataから対応するレアリティのリストを取得して抽選
-            characterData = CharacterListData.CharacterListInstance.GetCharacterList(CharacterData.RarityOfCharacter.SR_RARE);
+            characterData = CharacterListManager.GetCharacterList(CharacterListData.CharacterData.RarityOfCharacter.SR_RARE);
             return LotteryCharacter(characterData);
         }
         // R(レアリティ抽選する必要なし)
         // CharacterListDataから対応するレアリティのリストを取得して抽選
-        characterData = CharacterListData.CharacterListInstance.GetCharacterList(CharacterData.RarityOfCharacter.R_RARE);
+        characterData = CharacterListManager.GetCharacterList(CharacterListData.CharacterData.RarityOfCharacter.R_RARE);
         return LotteryCharacter(characterData);
     }
 
@@ -80,9 +80,9 @@ public class LotteryGacha : MonoBehaviour
     /// <param name="characterDataList">特定のレアリティでまとめられたキャラクター情報のリスト</param>
     /// <returns>キャラクターの情報</returns>
 
-    private CharacterData LotteryCharacter(IEnumerable<CharacterData> characterDataList)
+    private CharacterListData.CharacterData LotteryCharacter(IEnumerable<CharacterListData.CharacterData> characterDataList)
     {
-        List<CharacterData> characterList = new List<CharacterData>();
+        List<CharacterListData.CharacterData> characterList = new List<CharacterListData.CharacterData>();
         int acquiredNum = 0;
 
         // IEnumerableをListに変換する処理
