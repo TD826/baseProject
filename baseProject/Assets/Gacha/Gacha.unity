@@ -412,6 +412,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2973411573791567147, guid: bef1aa981ea57ba409bcc426f099b313,
+        type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2973411574016198188, guid: bef1aa981ea57ba409bcc426f099b313,
         type: 3}
       propertyPath: m_IsActive
@@ -420,7 +425,12 @@ PrefabInstance:
     - target: {fileID: 2973411574335625313, guid: bef1aa981ea57ba409bcc426f099b313,
         type: 3}
       propertyPath: probabilityR
-      value: 80
+      value: 79.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2973411574335625313, guid: bef1aa981ea57ba409bcc426f099b313,
+        type: 3}
+      propertyPath: probabilitySSR
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2973411574686200540, guid: bef1aa981ea57ba409bcc426f099b313,
         type: 3}
@@ -556,6 +566,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2973411575057097280, guid: bef1aa981ea57ba409bcc426f099b313,
+        type: 3}
+      propertyPath: m_text
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bef1aa981ea57ba409bcc426f099b313, type: 3}
