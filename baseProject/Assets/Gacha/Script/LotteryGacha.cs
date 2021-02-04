@@ -7,23 +7,14 @@ using System.Linq;
 // レアリティ抽選⇒キャラ抽選
 public class LotteryGacha : MonoBehaviour
 {    
-    private const float MAX_PERCENT = 100;
+    private const float MAX_PERCENT = 100.0f;
 
-    [Header("確率の合計がMAX_PARCENTになっていなければビルド時にエラーが出力されます")]
-    [Tooltip("Rキャラの確率"),SerializeField] private float probabilityR = 80;
-    [Tooltip("SRキャラの確率"),SerializeField] private float probabilitySR = 20;
-    [Tooltip("SSRキャラの確率"),SerializeField] private float probabilitySSR = 1;
+    [Header("確率の合計を100にしてください")]
+    [Tooltip("Rキャラの確率"),SerializeField] private float probabilityR = 79.7f;
+    [Tooltip("SRキャラの確率"),SerializeField] private float probabilitySR = 20.0f;
+    [Tooltip("SSRキャラの確率"),SerializeField] private float probabilitySSR = 0.3f;
     
     private List<CharacterListData.CharacterData> acquiredList = new List<CharacterListData.CharacterData>(); // 当たったキャラのリスト
-
-    void Start()
-    {
-        //　確率のエラーチェック
-        if(MAX_PERCENT == probabilityR + probabilitySR + probabilitySSR)
-        {
-            Debug.LogError("確率の合計が100になっていません");
-        }
-    }
 
     /// <summary>
     /// ガチャの抽選をする関数

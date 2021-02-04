@@ -10,6 +10,6 @@ public class CoinText : MonoBehaviour
     
     void Start()
     {
-        coinText.text = "現在のコイン : " + CoinData.Instance.Coin;
+        coinText.text = TextManager.GetText("nowCoin") +  CoinData.Instance.Coin;
     }
 }

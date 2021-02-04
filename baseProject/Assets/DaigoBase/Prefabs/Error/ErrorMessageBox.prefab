@@ -291,6 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4381138648072505686}
   - component: {fileID: 4381138648072505688}
+  - component: {fileID: 8140557160484669963}
   - component: {fileID: 4381138648072505689}
   m_Layer: 5
   m_Name: ErrorMessageText
@@ -326,6 +327,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4381138648072505687}
   m_CullTransparentMesh: 0
+--- !u!114 &8140557160484669963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381138648072505687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3c7b41696c9aa4e83843b09151169f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  errorText: {fileID: 4381138648072505689}
 --- !u!114 &4381138648072505689
 MonoBehaviour:
   m_ObjectHideFlags: 0
