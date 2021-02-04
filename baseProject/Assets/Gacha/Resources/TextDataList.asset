@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: TextDataList
   m_EditorClassIdentifier: 
   textDatas:
-  - textTag: nowCoin
+  - textTag: NowCoin
     text: "\u73FE\u5728\u306E\u30B3\u30A4\u30F3 : "
+  - textTag: ErrorCoin
+    text: "\u30B3\u30A4\u30F3\u304C\u8DB3\u308A\u307E\u305B\u3093"

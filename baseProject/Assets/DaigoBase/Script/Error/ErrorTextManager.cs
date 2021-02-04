@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
-public class ErrorText : MonoBehaviour
+public class ErrorTextManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI errorText;
     void Start()

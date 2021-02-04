@@ -4,12 +4,12 @@ using UnityEngine;
 using TMPro;
 using UniRx;
 
-public class CoinText : MonoBehaviour
+public class CoinTextManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI coinText;
     
     void Start()
     {
-        coinText.text = TextManager.GetText("nowCoin") +  CoinData.Instance.Coin;
+        coinText.text = TextManager.GetText("NowCoin") +  CoinData.Instance.Coin;
     }
 }
